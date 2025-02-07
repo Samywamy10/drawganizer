@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=file:/config/dev.db
+    volumes:
+      - ./config:/config
+    depends_on:
+      - migration
+
+  migration:
+    build: .
+    command: npx prisma migrate deploy
+    environment:
+      - DATABASE_URL=file:/config/dev.db
+    volumes:
+      - ./config:/config

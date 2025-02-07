@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Item {
+  id                Int     @id @default(autoincrement())
+  name              String
+  Drawer            Drawer? @relation(fields: [drawerId], references: [id])
+  drawerId          Int?
+  drawerStartRow    Int
+  drawerStartColumn Int
+  itemWidth         Int
+  itemDepth         Int
+  itemHeight        Int
+  startHeight       Int     @default(1)
+  icon              String? // Icon identifier e.g. "mdi:account" or "ph:dog"
+  color             String? // Hex color code e.g. "#FF5733"
+}
+
+model Drawer {
+  id           Int    @id @default(autoincrement())
+  name         String
+  items        Item[]
+  drawerWidth  Int
+  drawerDepth  Int
+  drawerHeight Int
+}

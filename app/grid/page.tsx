@@ -1,10 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import ItemList from "./ItemList";
-import ItemForm from "./ItemForm";
+import GridView from "./GridView";
 
 const prisma = new PrismaClient();
 
-export default async function Home() {
+export default async function GridPage() {
   // Fetch items and drawers from the database
   const items = await prisma.item.findMany({
     include: { Drawer: true },
@@ -15,7 +14,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto px-6 pt-8">
-        <ItemList items={items} />
+        <GridView items={items} drawers={drawers} />
       </div>
     </main>
   );

@@ -29,6 +29,7 @@ export default function ThreeDPage() {
         if (fetchedDrawers.length > 0) {
           setSelectedDrawerId(fetchedDrawers[0].id);
         }
+        console.log(fetchedDrawers);
       } catch (error) {
         console.error("Error loading data:", error);
       }

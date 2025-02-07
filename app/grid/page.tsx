@@ -1,20 +1,43 @@
-import { PrismaClient } from "@prisma/client";
+"use client";
+
+import { useEffect, useState } from "react";
 import GridView from "./GridView";
+import { getItems, getDrawers } from "../actions";
+import { ItemWithDrawer } from "../types";
+import { Drawer } from "@prisma/client";
 
-const prisma = new PrismaClient();
+export default function GridPage() {
+  const [items, setItems] = useState<ItemWithDrawer[]>([]);
+  const [drawers, setDrawers] = useState<Drawer[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function GridPage() {
-  // Fetch items and drawers from the database
-  const items = await prisma.item.findMany({
-    include: { Drawer: true },
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [itemsData, drawersData] = await Promise.all([
+          getItems(),
+          getDrawers(),
+        ]);
+        setItems(itemsData);
+        setDrawers(drawersData);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const drawers = await prisma.drawer.findMany();
+    fetchData();
+  }, []);
 
   return (
     <main className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto px-6 pt-8">
-        <GridView items={items} drawers={drawers} />
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <GridView items={items} drawers={drawers} />
+        )}
       </div>
     </main>
   );

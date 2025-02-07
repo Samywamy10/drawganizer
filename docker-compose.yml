@@ -3,24 +3,24 @@ services:
   web:
     build:
       context: .
-      args:
-        - DATABASE_URL=file:/config/dev.db
     ports:
       - "3000:3000"
     environment:
       - DATABASE_URL=file:/config/dev.db
+      - NODE_ENV=production
     volumes:
       - ./config:/config
+    user: "1001:1001"
     depends_on:
       - migration
 
   migration:
     build:
       context: .
-      args:
-        - DATABASE_URL=file:/config/dev.db
-    command: npx prisma migrate deploy
+      target: deps
+    command: sh -c "mkdir -p /config && npx prisma migrate deploy"
     environment:
       - DATABASE_URL=file:/config/dev.db
     volumes:
       - ./config:/config
+    user: "1001:1001"

@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 
 export default async function ManagePage() {
   const drawers = await prisma.drawer.findMany();
+  console.log(drawers);
 
   return (
     <main className="min-h-screen bg-black text-white">

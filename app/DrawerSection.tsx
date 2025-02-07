@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import type { Drawer } from "@prisma/client";
 import { ItemWithDrawer } from "./types";
 import { AddItemLine } from "./AddLineItem";
@@ -17,14 +16,13 @@ interface DrawerSection {
 export const DrawerSection: React.FC<DrawerSection> = ({
   drawer,
   items,
-  onAddItem,
   onDeleteItem,
 }) => {
   const handleAddPlaceholderItem = async (
     drawerId: number,
     name: string,
     position: { row: number; col: number },
-    size: { width: number; height: number }
+    size: { width: number; height: number; depth: number }
   ) => {
     const formData = new FormData();
     formData.append("name", name);

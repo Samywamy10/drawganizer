@@ -14,27 +14,47 @@ const ItemList: React.FC<ItemListProps> = ({ items }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   // Group items by drawer with filtering
-  const groupedItems = items.reduce((acc, item) => {
-    // Ensure Drawer is not null
-    if (!item.Drawer) return acc;
+  const groupedItems = items.reduce(
+    (acc, item) => {
+      // Ensure Drawer is not null
+      if (!item.Drawer) return acc;
 
-    // Apply filtering at the item level
-    const matchesSearch =
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.Drawer.name.toLowerCase().includes(searchTerm.toLowerCase());
+      // Apply filtering at the item level
+      const matchesSearch =
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.Drawer.name.toLowerCase().includes(searchTerm.toLowerCase());
 
-    if (matchesSearch) {
-      if (!acc[item.Drawer.id]) {
-        acc[item.Drawer.id] = {
-          drawer: item.Drawer,
-          items: [],
-        };
+      if (matchesSearch) {
+        if (!acc[item.Drawer.id]) {
+          acc[item.Drawer.id] = {
+            drawer: {
+              id: item.Drawer.id,
+              name: item.Drawer.name,
+              drawerWidth: item.Drawer.drawerWidth,
+              drawerDepth: item.Drawer.drawerDepth,
+              drawerHeight: item.Drawer.drawerHeight,
+            },
+            items: [],
+          };
+        }
+        acc[item.Drawer.id].items.push(item);
       }
-      acc[item.Drawer.id].items.push(item);
-    }
 
-    return acc;
-  }, {} as { [drawerId: number]: { drawer: { id: number; name: string }; items: ItemWithDrawer[] } });
+      return acc;
+    },
+    {} as {
+      [drawerId: number]: {
+        drawer: {
+          id: number;
+          name: string;
+          drawerWidth: number;
+          drawerDepth: number;
+          drawerHeight: number;
+        };
+        items: ItemWithDrawer[];
+      };
+    }
+  );
 
   const handleAddItem = async (drawerId: number, name: string) => {
     const formData = new FormData();

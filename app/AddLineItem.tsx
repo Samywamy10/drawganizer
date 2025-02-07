@@ -11,7 +11,7 @@ interface AddItemLineProps {
     drawerId: number,
     name: string,
     position: { row: number; col: number },
-    size: { width: number; height: number },
+    size: { width: number; height: number; depth: number },
     icon?: string,
     color?: string
   ) => void;
@@ -24,7 +24,7 @@ export const AddItemLine: React.FC<AddItemLineProps> = ({
   const [isAdding, setIsAdding] = useState(false);
   const [name, setName] = useState("");
   const [position, setPosition] = useState({ row: 1, col: 1 });
-  const [size, setSize] = useState({ width: 1, height: 1 });
+  const [size, setSize] = useState({ width: 1, height: 1, depth: 1 });
   const [icon, setIcon] = useState<string>();
   const [color, setColor] = useState<string>();
 
@@ -47,7 +47,7 @@ export const AddItemLine: React.FC<AddItemLineProps> = ({
       onAddPlaceholderItem(drawer.id, name, position, size, icon, color);
       setName("");
       setPosition({ row: 1, col: 1 });
-      setSize({ width: 1, height: 1 });
+      setSize({ width: 1, height: 1, depth: 1 });
       setIcon(undefined);
       setColor(undefined);
       setIsAdding(false);
@@ -163,6 +163,20 @@ export const AddItemLine: React.FC<AddItemLineProps> = ({
                 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
               />
               <label className="text-gray-500 text-xs mt-1">height</label>
+            </div>
+            <div className="flex flex-col items-center">
+              <input
+                type="number"
+                min="1"
+                max={drawer.drawerDepth}
+                value={size.depth}
+                onChange={(e) =>
+                  setSize({ ...size, depth: Number(e.target.value) })
+                }
+                className="w-14 p-1 rounded bg-[#252525] text-white border border-gray-700
+                focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              />
+              <label className="text-gray-500 text-xs mt-1">depth</label>
             </div>
           </div>
         </div>

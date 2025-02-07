@@ -8,6 +8,7 @@ async function main() {
       name: "Drawer 1",
       drawerWidth: 24,
       drawerDepth: 12,
+      drawerHeight: 12,
     },
   });
   const user = await prisma.item.create({
@@ -18,6 +19,7 @@ async function main() {
       drawerStartColumn: 1,
       itemWidth: 1,
       itemDepth: 1,
+      itemHeight: 1,
     },
   });
   console.log(user);

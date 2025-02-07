@@ -20,9 +20,9 @@ COPY --from=deps /app/prisma ./prisma
 COPY . .
 
 # Set database URL for build time and run migrations
-ENV DATABASE_URL=file:/tmp/dev.db
+ENV DATABASE_URL=file:/config/dev.db
 RUN npx prisma generate
-RUN mkdir -p /tmp && touch /tmp/dev.db
+RUN mkdir -p /config && touch /config/dev.db
 RUN npx prisma migrate deploy
 
 # Next.js collects completely anonymous telemetry data about general usage.

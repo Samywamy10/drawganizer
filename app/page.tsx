@@ -1,34 +1,18 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { PrismaClient } from "@prisma/client";
 import ItemList from "./ItemList";
-import { ItemWithDrawer } from "./types";
-import { getItems } from "./actions";
 
-export default function Home() {
-  const [items, setItems] = useState<ItemWithDrawer[]>([]);
-  const [loading, setLoading] = useState(true);
+const prisma = new PrismaClient();
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const data = await getItems();
-        console.log(data);
-        setItems(data);
-      } catch (error) {
-        console.error("Failed to fetch items:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchItems();
-  }, []);
+export default async function Home() {
+  // Fetch items and drawers from the database
+  const items = await prisma.item.findMany({
+    include: { Drawer: true },
+  });
 
   return (
     <main className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto px-6 pt-8">
-        {loading ? <div>Loading...</div> : <ItemList items={items} />}
+        <ItemList items={items} />
       </div>
     </main>
   );

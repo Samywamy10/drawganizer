@@ -1,13 +1,8 @@
-import { PrismaClient } from "@prisma/client";
 import ItemList from "./ItemList";
-
-const prisma = new PrismaClient();
+import { getItems } from "./actions";
 
 export default async function Home() {
-  // Fetch items and drawers from the database
-  const items = await prisma.item.findMany({
-    include: { Drawer: true },
-  });
+  const items = await getItems();
 
   return (
     <main className="min-h-screen bg-black text-white">

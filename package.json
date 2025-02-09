@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "compile": "next build --experimental-build-mode compile",
+    "generate": "next build --experimental-build-mode generate",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

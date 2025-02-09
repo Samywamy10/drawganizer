@@ -6,7 +6,6 @@ README.md
 .gitignore
 docker-compose.yml
 Dockerfile
-config/
 prisma/dev.db
 npm-debug.log
 yarn-debug.log

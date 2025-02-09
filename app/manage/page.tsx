@@ -1,11 +1,8 @@
-import { PrismaClient } from "@prisma/client";
 import { DrawerManager } from "../components/DrawerManager";
-
-const prisma = new PrismaClient();
+import { getDrawers } from "../actions";
 
 export default async function ManagePage() {
-  const drawers = await prisma.drawer.findMany();
-  console.log(drawers);
+  const drawers = await getDrawers();
 
   return (
     <main className="min-h-screen bg-black text-white">

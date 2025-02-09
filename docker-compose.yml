@@ -14,7 +14,8 @@ services:
       - ./config:/config
     user: "1001:1001"
     depends_on:
-      - migration
+      migration:
+        condition: service_completed_successfully
 
   migration:
     build:
